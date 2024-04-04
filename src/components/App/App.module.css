@@ -1,1 +1,7 @@
-
+.container {
+  width: 600px;
+  margin: 0 auto;
+  border: 4px solid rgb(241, 212, 212);
+  border-radius: 32px;
+  padding: 24px;
+}

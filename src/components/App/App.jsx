@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Description from '../Description/Description'
 import Options from '../Options/Options'
 import Feedback from '../Feedback/Feedback'
@@ -8,12 +8,20 @@ import css from './App.module.css'
 
 export default function App() {
 
-const [reviews, setReviews] = useState({
+    const [reviews, setReviews] = useState(() => {
+        const savedReviews = JSON.parse(localStorage.getItem('currentReviews'));
+        if (savedReviews !== null) {
+           return savedReviews;
+        }
+    return {
 	good: 0,
 	neutral: 0,
 	bad: 0
-}  
-);
+} 
+    });
+    
+ useEffect(() => {localStorage.setItem(`currentReviews`, JSON.stringify(reviews)) }, [reviews]);
+    
     
 function updateFeedback(feedbackType) {
     setReviews({
@@ -22,21 +30,38 @@ function updateFeedback(feedbackType) {
     })
 }
     
+function reset() {
+        setReviews({
+            good: 0,
+            neutral: 0,
+            bad: 0
+        });
+    }
+    
 const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
+    
+const positiveReviews = Math.round((reviews.good / totalFeedback) * 100)
+    
 
+return (
+        <div className={css.container}>
+         <Description/>
 
- return (
-        <>
-            <Description />
-            <Options
+          <Options
              clickFeedback={updateFeedback}
+             clickReset={reset}
+             reviews={reviews}
          />
+            
          {totalFeedback > 0 ? 
             <Feedback
-                good={reviews.good}
-                neutral={reviews.neutral}
-                bad={reviews.bad} /> : <Notification/>}
-        </>
+                 good={reviews.good}
+                 neutral={reviews.neutral}
+                 bad={reviews.bad}
+                 total={totalFeedback}
+                 positive={positiveReviews} /> : <Notification />}
+         
+        </div>
     )
     
 }

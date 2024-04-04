@@ -1,0 +1,27 @@
+.btnCont {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
+.btn {
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d3b3b3;
+  background: #30241c;
+  color: #fff;
+}
+.btn:hover {
+  background: #3f2f25;
+}
+
+.btnReset {
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: 1px solid #d3b3b3;
+  background: #523725;
+  color: #fff;
+}
+.btnReset:hover {
+  background: #7a5c47;
+}
